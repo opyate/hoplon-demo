@@ -60,12 +60,12 @@
                                         (reset! new-tag "")))
                       :disabled (cell= (not parsed))
                       "+")))
-          (em @date)
-          (span @description)
-          (strong @amount)
+          (em date)
+          (span description)
+          (strong amount)
           )))
 (defelem transaction-list [{:keys [from]}]
-  (ul
+  (ol
    (for-tpl [tagged-tx from]
             (li
              (span (render-tx tagged-tx))))))
@@ -76,7 +76,7 @@
     (swap! db-txs conj tx)))
 
 (defelem debug [{:keys [from]}]
-  (ul
+  (ol
    (for-tpl [it from]
             (li (cell= (str it))))))
 
@@ -84,7 +84,8 @@
  (head
   (link :href "app.css" :rel "stylesheet" :type "text/css"))
  (body
-  (button :click load "Load more")
+  (button :click load "Load more " (cell= (count db-txs-more)))
+  (h5 (cell= (count db-txs)) " transactions " (cell= (count tagged-txs)) " tagged transactions")
   (transaction-list :from tagged-txs)
   (hr)
   (h5 "db-txs")
